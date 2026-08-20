@@ -1,47 +1,68 @@
-# Copyright 2021 The kpt Authors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#      http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 apiVersion: apps/v1
 kind: Deployment
-metadata: # kpt-merge: /my-nginx
+metadata: # kpt-merge: /koina
   annotations:
-    internal.kpt.dev/upstream-identifier: apps/v1|Deployment|koina|my-nginx
-  name: my-nginx
+    internal.kpt.dev/upstream-identifier: apps/v1|Deployment|koina|koina
+  name: koina
   namespace: koina
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: koina
   template:
     metadata:
       labels:
-        app: nginx
-        team: team hla
-        environment: prod
-        app.kubernetes.io/managed-by: gcp-cloud-build-deploy
+        app: koina
     spec:
+      nodeSelector:
+        cloud.google.com/gke-accelerator: nvidia-l4
       containers:
-        - name: nginx
-          image: "nginx:1.18.0"
+        - name: koina
+          image: ghcr.io/wilhelm-lab/koina:latest
+          env:
+            - name: MODEL_PATTERN
+              value: "Prosit_2019*"
           ports:
-            - containerPort: 80
+            - name: grpc
+              containerPort: 8500
+              protocol: TCP
+            - name: http
+              containerPort: 8501
+              protocol: TCP
+            - name: metrics
+              containerPort: 8502
               protocol: TCP
           resources:
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: "4"
+              memory: 16Gi
+              nvidia.com/gpu: "1"
             limits:
-              cpu: 100m
-              memory: 128Mi
+              cpu: "4"
+              memory: 16Gi
+              nvidia.com/gpu: "1"
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+          startupProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            periodSeconds: 30
+            failureThreshold: 40
+          readinessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /v2/health/ready
+              port: http
+            periodSeconds: 30
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 8Gi
