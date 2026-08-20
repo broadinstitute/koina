@@ -35,7 +35,7 @@ pipeline:
         app.kubernetes.io/name: Koina
         backstage.io/kubernetes-id: Koina
         environment: dev
-        team: team hla
+        team: team-hla
   validators:
     - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:v0.1
       configMap:
