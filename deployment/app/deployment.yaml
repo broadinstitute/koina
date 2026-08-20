@@ -22,7 +22,7 @@ spec:
           image: ghcr.io/wilhelm-lab/koina:latest
           env:
             - name: MODEL_PATTERN
-              value: "Prosit_2019*"
+              value: "*"
           ports:
             - name: grpc
               containerPort: 8500
@@ -35,12 +35,12 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: "4"
-              memory: 16Gi
+              cpu: "8"
+              memory: 32Gi
               nvidia.com/gpu: "1"
             limits:
-              cpu: "4"
-              memory: 16Gi
+              cpu: "8"
+              memory: 32Gi
               nvidia.com/gpu: "1"
           volumeMounts:
             - name: dshm
@@ -50,7 +50,7 @@ spec:
               path: /v2/health/ready
               port: http
             periodSeconds: 30
-            failureThreshold: 40
+            failureThreshold: 80
           readinessProbe:
             httpGet:
               path: /v2/health/ready
