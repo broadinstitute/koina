@@ -38,6 +38,16 @@ def find_model_paths(pattern: str) -> List[PosixPath]:
         )
 
 
+def find_paths_matching_terms(terms: List[str]) -> Set[PosixPath]:
+    """Case-insensitive substring match of `terms` against top-level model dir names."""
+    terms_lower = [t.lower() for t in terms]
+    return set(
+        Path(x)
+        for x in glob("*/*")
+        if x[:4] != "repo" and any(term in Path(x).name.lower() for term in terms_lower)
+    )
+
+
 def clean_repo(auto=False):
     tobedeleted_files = glob(f"repo/*")
     x = "n"
@@ -136,11 +146,16 @@ def find_and_download():
 if __name__ == "__main__":
     os.chdir("/models")
     clean_repo(True)
-    try:
-        recursive_dependency_symlink(os.environ["MODEL_PATTERN"])
-    except KeyError:
+    if "MODEL_PATTERN" not in os.environ:
         print("MODEL_PATTERN key not found linking all available models")
+    pattern = os.environ.get("MODEL_PATTERN", "*")
+    if pattern == "*":
         recursive_dependency_symlink("*")
+    else:
+        # comma-separated, case-insensitive substring match, e.g. "Prosit,Deeplc,IM2Deep"
+        terms = [t.strip() for t in pattern.split(",") if t.strip()]
+        for loc in find_paths_matching_terms(terms):
+            symlink_model(loc)
     find_and_download()
 
     triton_cmd = [
