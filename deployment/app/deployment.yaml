@@ -16,13 +16,13 @@ spec:
         app: koina
     spec:
       nodeSelector:
-        cloud.google.com/gke-accelerator: nvidia-l4
+        cloud.google.com/gke-accelerator: nvidia-tesla-t4
       containers:
         - name: koina
-          image: ghcr.io/wilhelm-lab/koina:latest
+          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:pdi-test
           env:
             - name: MODEL_PATTERN
-              value: "*"
+              value: "Prosit,Deeplc,IM2Deep"
           ports:
             - name: grpc
               containerPort: 8500
