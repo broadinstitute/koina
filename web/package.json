@@ -18,7 +18,7 @@
     "@types/lodash": "^4.17.4",
     "@types/node": "^20",
     "color": "^4.2.3",
-    "nuxt": "^3.11.2",
+    "nuxt": "^3.21.11",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "vite-plugin-top-level-await": "^1.4.1",
