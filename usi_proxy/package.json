@@ -17,7 +17,7 @@
     "axios": "^1.6.7",
     "dotenv": "^16.4.5",
     "esbuild": "^0.20.1",
-    "express": "^4.18.3",
+    "express": "^5.2.1",
     "postject": "^1.0.0-alpha.6"
   }
 }
