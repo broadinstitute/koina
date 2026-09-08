@@ -5,6 +5,8 @@ metadata: # kpt-merge: /koina
     internal.kpt.dev/upstream-identifier: apps/v1|Deployment|koina|koina
   name: koina
   namespace: koina
+  labels:
+    backstage.io/kubernetes-id: koina
 spec:
   replicas: 1
   selector:
@@ -14,6 +16,7 @@ spec:
     metadata:
       labels:
         app: koina
+        backstage.io/kubernetes-id: koina
     spec:
       nodeSelector:
         cloud.google.com/gke-accelerator: nvidia-tesla-t4
