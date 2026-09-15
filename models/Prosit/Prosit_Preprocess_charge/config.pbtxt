@@ -13,3 +13,10 @@ output [
    dims: [6]
  }
 ]
+
+instance_group [
+    {
+      count: 4
+      kind: KIND_CPU
+    }
+]

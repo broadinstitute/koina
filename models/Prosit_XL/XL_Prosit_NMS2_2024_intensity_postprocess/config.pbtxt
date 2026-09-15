@@ -34,3 +34,10 @@ output [
    dims: [174]
  }
 ]
+
+instance_group [
+    {
+      count: 4
+      kind: KIND_CPU
+    }
+]

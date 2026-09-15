@@ -8,7 +8,7 @@ metadata: # kpt-merge: /koina
   labels:
     backstage.io/kubernetes-id: koina
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: koina
@@ -20,12 +20,13 @@ spec:
     spec:
       nodeSelector:
         cloud.google.com/gke-accelerator: nvidia-tesla-t4
+        cloud.google.com/gke-accelerator-count: "1"
       containers:
         - name: koina
-          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:pdi-test
+          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:instance-group-v4
           env:
             - name: MODEL_PATTERN
-              value: "Prosit,Deeplc,IM2Deep"
+              value: "Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2019_irt,Deeplc,IM2Deep"
           ports:
             - name: grpc
               containerPort: 8500
@@ -38,12 +39,12 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: "8"
-              memory: 32Gi
+              cpu: "16"
+              memory: 96Gi
               nvidia.com/gpu: "1"
             limits:
-              cpu: "8"
-              memory: 32Gi
+              cpu: "16"
+              memory: 96Gi
               nvidia.com/gpu: "1"
           volumeMounts:
             - name: dshm
@@ -68,4 +69,4 @@ spec:
         - name: dshm
           emptyDir:
             medium: Memory
-            sizeLimit: 8Gi
+            sizeLimit: 32Gi

@@ -29,3 +29,10 @@ output [
    dims: [174]
  }
 ]
+
+instance_group [
+    {
+      count: 16
+      kind: KIND_CPU
+    }
+]
