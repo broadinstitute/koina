@@ -36,6 +36,9 @@ pipeline:
         backstage.io/kubernetes-id: Koina
         environment: dev
         team: team-hla
+    - image: ghcr.io/kptdev/krm-functions-catalog/apply-setters:v0.2
+      configMap:
+        cert-name: koina-dev.broadinstitute.org
   validators:
     - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:v0.1
       configMap:
