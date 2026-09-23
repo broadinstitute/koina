@@ -7,8 +7,10 @@ metadata: # kpt-merge: /koina
   namespace: koina
   labels:
     backstage.io/kubernetes-id: koina
+    environment: prod
+    team: team-hla
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       app: koina
@@ -17,13 +19,21 @@ spec:
       labels:
         app: koina
         backstage.io/kubernetes-id: koina
+        environment: prod
+        team: team-hla
     spec:
       nodeSelector:
+        cloud.google.com/gke-spot: "true"
         cloud.google.com/gke-accelerator: nvidia-tesla-t4
         cloud.google.com/gke-accelerator-count: "1"
+      tolerations:
+        - key: cloud.google.com/gke-spot
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
       containers:
         - name: koina
-          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:instance-group-v4
+          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:baked-weights-v1
           env:
             - name: MODEL_PATTERN
               value: "Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2019_irt,Deeplc,IM2Deep"
@@ -39,12 +49,12 @@ spec:
               protocol: TCP
           resources:
             requests:
-              cpu: "16"
-              memory: 96Gi
+              cpu: "8"
+              memory: 24Gi
               nvidia.com/gpu: "1"
             limits:
-              cpu: "16"
-              memory: 96Gi
+              cpu: "8"
+              memory: 24Gi
               nvidia.com/gpu: "1"
           volumeMounts:
             - name: dshm

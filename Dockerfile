@@ -5,6 +5,9 @@ CMD [ "/models/start.py" ]
 
 FROM serving-develop AS serving-prod
 COPY ./models  /models
+ARG MODEL_PATTERN="Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2019_irt,Deeplc,IM2Deep"
+ENV MODEL_PATTERN=${MODEL_PATTERN}
+RUN PREFETCH_ONLY=1 python3 /models/start.py
 
 FROM nvcr.io/nvidia/tritonserver:24.07-py3-sdk AS util
 RUN add-apt-repository ppa:git-core/ppa

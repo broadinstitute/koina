@@ -158,6 +158,10 @@ if __name__ == "__main__":
             symlink_model(loc)
     find_and_download()
 
+    if os.environ.get("PREFETCH_ONLY"):
+        # Used at image build time to bake weights in, skipping the runtime download.
+        exit(0)
+
     triton_cmd = [
         "tritonserver",
         "--model-repository=/models/repo",

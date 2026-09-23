@@ -12,9 +12,11 @@ spec:
     - name: grpc
       port: 8500
       protocol: TCP
+      appProtocol: kubernetes.io/h2c
     - name: http
       port: 8501
       protocol: TCP
+      appProtocol: http
     - name: metrics
       port: 8502
       protocol: TCP
