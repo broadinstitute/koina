@@ -33,10 +33,10 @@ spec:
           effect: NoSchedule
       containers:
         - name: koina
-          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:baked-weights-v1
+          image: us-east4-docker.pkg.dev/koina-504021/koina/koina:baked-weights-tmt-v2
           env:
             - name: MODEL_PATTERN
-              value: "Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2019_irt,Deeplc,IM2Deep"
+              value: "Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2020_intensity_TMT,Prosit_2019_irt,Prosit_2020_irt_TMT,Deeplc,IM2Deep"
           ports:
             - name: grpc
               containerPort: 8500
