@@ -5,7 +5,7 @@ CMD [ "/models/start.py" ]
 
 FROM serving-develop AS serving-prod
 COPY ./models  /models
-ARG MODEL_PATTERN="Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2019_irt,Deeplc,IM2Deep"
+ARG MODEL_PATTERN="Prosit_2023_intensity_timsTOF,Prosit_2020_intensity_CID,Prosit_2020_intensity_HCD,Prosit_2020_intensity_TMT,Prosit_2019_irt,Prosit_2020_irt_TMT,Deeplc,IM2Deep"
 ENV MODEL_PATTERN=${MODEL_PATTERN}
 RUN PREFETCH_ONLY=1 python3 /models/start.py
 
