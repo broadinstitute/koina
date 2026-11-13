@@ -11,14 +11,14 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^0.3.13",
+    "@nuxt/eslint": "^1.17.0",
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@stylistic/eslint-plugin": "^2.1.0",
     "@types/color": "^3.0.6",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20",
     "color": "^4.2.3",
-    "nuxt": "^3.11.2",
+    "nuxt": "^4.6.4",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
     "vite-plugin-top-level-await": "^1.4.1",
